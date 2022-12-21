@@ -1,5 +1,5 @@
-import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
-import {CanvasData, CanvasFileData} from 'obsidian/canvas'
+import { Plugin } from 'obsidian';
+import {CanvasData} from 'obsidian/canvas'
 
 export default class MyPlugin extends Plugin {
 	async onload() {
@@ -33,10 +33,6 @@ export default class MyPlugin extends Plugin {
 
 	onunload() {
 
-	}
-
-	async loadSettings() {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
 	}
 }
 
