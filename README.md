@@ -10,3 +10,7 @@ Obsidian plugin that will generate a canvas from a given MOC note
   3. Edit this interface
   4. Update the file and SEE THE CHANGES
 - [ ] Implement the plugin
+
+
+# Credits
+The idea for this plugin came from a reddit comment requesting this feature; u/J4nosch wrote this comment. 
