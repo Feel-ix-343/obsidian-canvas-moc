@@ -1,34 +1,84 @@
-import { Plugin } from 'obsidian';
+import { randomUUID } from 'crypto';
+import { Plugin, TFile } from 'obsidian';
 import {CanvasData} from 'obsidian/canvas'
 
 export default class MyPlugin extends Plugin {
 	async onload() {
     this.addCommand({
-      name: "Canvas",
-      id: "canvas",
-      callback: this.canvas
+      name: "Create Canvas",
+      id: "create-canvas",
+      callback: () => {
+        let activeFile = this.app.workspace.getActiveFile();
+        if (!activeFile || activeFile.extension != "md") {
+          return
+        }
+
+        this.createCanvas(activeFile)
+      }
     })
 	}
 
-  canvas = async () => {
-    let file = this.app.workspace.getActiveFile()
 
-    if (!file) {
-      return
+  public createCanvas = async (mocFile: TFile) => {
+    // Read all of the outgoing links in the MOC
+    const outgoing_links = Object.keys(app.metadataCache.resolvedLinks[mocFile.path])
+      .map(path => app.vault.getAbstractFileByPath(path))
+
+    // Create and open the canvas file
+    let defaultCanvasJSON: CanvasData = {
+      edges: [],
+      nodes: []
     }
 
-    let json = await this.app.vault.read(file)
+    // TODO: Turn this into a popup and fix duplicate naming error
+    let canvasFile = await this.app.vault.create(mocFile.name + " Canvas.canvas", JSON.stringify(defaultCanvasJSON))
+    let canvas = await this.app.workspace.getLeaf(true).openFile(canvasFile)
 
-    console.log(json)
+    const height = 300 // The height of the node + the spacing below it
 
-    let canvas: CanvasData = JSON.parse(json);
+    // Load the MOC
+    this.app.vault.process(canvasFile, (data: string) => {
+      let canvasData: CanvasData = JSON.parse(data)
+      const mocID = randomUUID()
+      canvasData.nodes.push({
+        id: mocID,
+        type: "file",
+        file: mocFile.name,
+        height: height,
+        width: 500,
+        x: 0,
+        y: 0,
+      })
 
-    console.log(canvas.nodes[0])
+      const paddingBelow = 100; // Padding below the node display
+      let totalHeight = height * outgoing_links.length + paddingBelow * (outgoing_links.length - 1)
+      let middle = totalHeight / 2 // middle
+      let yOffset = middle - height / 2  // Adjusted for the height of the MOC node
+      const xOffset = 600
+      for (let i = 0; i < outgoing_links.length; i++) {
+        const id = randomUUID();
+        canvasData.nodes.push({
+          id,
+          type: "file",
+          file: outgoing_links[i]!.path, // TODO: 
+          height: height,
+          width: 500,
+          x: xOffset,
+          y: (height + paddingBelow) * i - yOffset,
+        })
 
-    canvas.nodes.forEach((a) => a.width = 1000)
+        canvasData.edges.push({
+          fromNode: mocID,
+          toNode: id,
+          fromSide: 'right',
+          toSide: "left",
+          id: randomUUID()
+        })
+      }
 
-    await this.app.vault.modify(file, JSON.stringify(canvas)); 
 
+      return JSON.stringify(canvasData)
+    })
   }
 
 	onunload() {
