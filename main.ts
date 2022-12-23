@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto';
-import { Plugin, TFile } from 'obsidian';
+import { Notice, Plugin, TFile } from 'obsidian';
 import {CanvasData, NodeSide} from 'obsidian/canvas'
 
 export default class MyPlugin extends Plugin {
@@ -33,7 +33,18 @@ export default class MyPlugin extends Plugin {
     }
 
     // TODO: Turn this into a popup and fix duplicate naming error
-    let canvasFile = await this.app.vault.create(mocFile.name + " Canvas.canvas", JSON.stringify(defaultCanvasJSON))
+    let canvasFile
+    let name = mocFile.name + " Canvas.canvas"
+
+    try {
+      canvasFile = await this.app.vault.create(name, JSON.stringify(defaultCanvasJSON))
+    } catch (e) {
+      console.log(e)
+      new Notice(`Canvas file (${name}) already exists`)
+      return
+    }
+
+
     let canvas = await this.app.workspace.getLeaf(true).openFile(canvasFile)
 
     const height = 300 // The height of the node + the spacing below it
@@ -57,7 +68,7 @@ export default class MyPlugin extends Plugin {
         type: "file",
         file: mocFile.name,
         height: height,
-        width: 500,
+        width: width,
         x: 0 + xOffset,
         y: 0 + yOffset,
       })
