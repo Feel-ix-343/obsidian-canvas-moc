@@ -13,7 +13,7 @@ Obsidian plugin that will generate a canvas from a given MOC note
   - Currently works. Creates a circle of the outlinks around the MOC note node
   - I used cool trig for this
 - [ ] Update Design and add some settings (spacing etc...)
-  - [ ] Is the cirlcle view the best?
+  - [ ] Is the circle view the best?
   - [ ] What should the spacing between each node be?
 ## Potential Usage
 ![CANVASMOC](https://user-images.githubusercontent.com/88951499/209263622-b7f58d3d-d931-4a9a-b9c0-d30c3aae64de.gif)
