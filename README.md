@@ -15,7 +15,8 @@ Obsidian plugin that will generate a canvas from a given MOC note
 - [ ] Update Design and add some settings (spacing etc...)
   - [ ] Is the cirlcle view the best?
   - [ ] What should the spacing between each node be?
-
+## Potential Usage
+![CANVASMOC](https://user-images.githubusercontent.com/88951499/209263622-b7f58d3d-d931-4a9a-b9c0-d30c3aae64de.gif)
 
 # Credits
 The idea for this plugin came from a reddit comment requesting this feature; u/J4nosch wrote this comment. 
