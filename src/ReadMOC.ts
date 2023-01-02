@@ -40,7 +40,7 @@ const readMOC = (mocFile: TFile): Node | undefined => {
         width: 0,
         height: 0,
       },
-      subnodes: filteredLinks.map(link => {
+      subnodes: filteredLinks.reduce((acc, link) => {
         // Get the path of the link
         let regularLinkText = link.link
         if (regularLinkText.contains("#")) {
@@ -48,10 +48,25 @@ const readMOC = (mocFile: TFile): Node | undefined => {
         }
         const path = Object.keys(app.metadataCache.resolvedLinks[mocFile.path]).find((value) => value.contains(regularLinkText))
 
-        return {
-          node: getCanvasDataFromFile(app.vault.getAbstractFileByPath(path!)!)
+        if (!path) { // This may happen if there is a link to a file that is not in the vault
+          return acc
         }
-      })
+
+        let file = app.vault.getAbstractFileByPath(path)
+
+        if (!file) {
+          return acc
+        }
+
+        let canvasFileData: CanvasFileData | undefined = getCanvasDataFromFile(file)
+
+        acc.push({
+          node: canvasFileData
+        })
+
+        return acc
+
+      }, Array<Node>())
     }
 
     baseNode.subnodes?.push(headingNode)
