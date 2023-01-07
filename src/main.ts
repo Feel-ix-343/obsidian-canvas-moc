@@ -2,10 +2,37 @@ import { Notice, Plugin, TFile } from 'obsidian';
 import {CanvasData} from 'obsidian/canvas'
 import graph from './Graphing';
 import { Node, readMOC } from './ReadMOC';
+import SettingTab, { PluginSettings } from './SettingTab';
 
+export interface PluginSettings {
+  spacing: number,
+  minRadius: number,
+  headingWidth: number,
+  headingHeight: number,
+  noteWidth: number,
+  noteHeight: number,
+  angleSpan: number,
+}
 
-export default class MyPlugin extends Plugin {
-	async onload() {
+const DEFAULT_SETTINGS: PluginSettings = {
+  spacing: 10,
+  minRadius: 400,
+  headingWidth: 250,
+  headingHeight: 250,
+  noteWidth: 250,
+  noteHeight: 250,
+  angleSpan: 110
+} 
+
+export {DEFAULT_SETTINGS}
+  
+
+export default class ObsidianCanvasMOC extends Plugin {
+  settings: PluginSettings
+  async onload() {
+
+    this.loadSettings()
+
     this.addCommand({
       name: "Create Canvas",
       id: "create-canvas",
@@ -18,7 +45,18 @@ export default class MyPlugin extends Plugin {
         this.createCanvas(activeFile)
       }
     })
-	}
+
+    this.addSettingTab(new SettingTab(this.app, this));
+  }
+
+  async loadSettings() {
+    this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData())
+  }
+
+  async saveSettings() {
+    await this.saveData(this.settings);
+    console.log("Settings saved", this.settings);
+  }
 
 
   public createCanvas = async (mocFile: TFile) => {
