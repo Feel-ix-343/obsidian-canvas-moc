@@ -113,7 +113,7 @@ export default class SettingTab extends PluginSettingTab {
       placeholder: "Angle span in degrees"
     })
   }
-  generateSettings( { containerEl, name, description, placeholder, value, onChange, defaultValue }: { containerEl: HTMLElement; name: string; description: string; placeholder: string; value: string; onChange: (value: number) => void; defaultValue: number; }) {
+  generateSettings( { containerEl, name, description, placeholder, value, onChange, defaultValue }: { containerEl: HTMLElement; name: string; description: string; placeholder: string; value: number; onChange: (value: number) => void; defaultValue: number; }) {
     new Setting(containerEl)
       .setName(name)
       .setDesc(description)
