@@ -15,7 +15,14 @@ interface NodeCoordinate {
 export default async function graph (
   canvasFile: TFile,
   nodeParent: Node,
-  options: {center: {x: number, y: number}, spacing: number, angleSpan: number, startingAngle: number}
+  options: {
+    center: {x: number, y: number},
+    spacing: number,
+    angleSpan: number,
+    startingAngle: number,
+    minRadius: number,
+    noteWidth: number,
+  }
 ): Promise<NodeCoordinate[] | undefined> {
   const {data: node, subnodes} = nodeParent
 
@@ -27,9 +34,9 @@ export default async function graph (
   // Filtering out text-subnodes that do not have subnodes
   let subnodesFiltered = subnodes.filter(subnode => subnode.data.type !== "text" || subnode.subnodes !== undefined)
 
-  const {spacing, angleSpan, startingAngle, center} = options
+  const {spacing, angleSpan, startingAngle, center, minRadius, noteWidth} = options
 
-  let subNodeCoordinates = calculateCoordinates(250, spacing, subnodesFiltered.length, angleSpan, startingAngle, 400)
+  let subNodeCoordinates = calculateCoordinates(noteWidth, spacing, subnodesFiltered.length, angleSpan, startingAngle, minRadius)
 
 
   await app.vault.process(canvasFile, (data: string) => {
@@ -78,7 +85,6 @@ export default async function graph (
     }
 
 
-    console.log("Canvasdata: ", canvasData)
     return JSON.stringify(canvasData)
   })
 

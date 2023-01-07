@@ -138,7 +138,7 @@ export default class SettingTab extends PluginSettingTab {
             const input = document.getElementById(name) as HTMLInputElement
             console.log(input)
             if (input) {
-              input.value = value?.toString() ?? defaultValue.toString()
+              input.value = defaultValue.toString()
             }
           })
       })

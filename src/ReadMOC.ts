@@ -1,5 +1,6 @@
 import { randomUUID } from "crypto";
 import { EmbedCache, HeadingCache, LinkCache, Notice, TAbstractFile, TFile } from "obsidian";
+import { PluginSettings } from "./main";
 
 
 export interface Node {
@@ -11,11 +12,13 @@ export class NodeTextData {
   id = randomUUID();
   text: string;
   type = "text" as const;
-  width = 250;
-  height = 100;
+  width: number;
+  height: number;
 
-  constructor(text: string) {
+  constructor(text: string, width: number, height: number) {
     this.text = "# " + text;
+    this.width = width;
+    this.height = height;
   }
 
   getXOffset() {
@@ -35,8 +38,10 @@ export class NodeFileData {
   height = 250;
 
 
-  constructor(file: TFile | TAbstractFile) {
+  constructor(file: TFile | TAbstractFile, width: number, height: number) {
     this.file = file.path
+    this.width = width;
+    this.height = height;
   }
 
   getXOffset() {
@@ -49,7 +54,7 @@ export class NodeFileData {
 }
 
 
-const readMOC = (mocFile: TFile): Node | undefined => {
+const readMOC = (mocFile: TFile, settings: PluginSettings): Node | undefined => {
   const fileCache = app.metadataCache.getFileCache(mocFile);
   if (!fileCache) {
     new Notice("File cache not found");
@@ -66,7 +71,7 @@ const readMOC = (mocFile: TFile): Node | undefined => {
 
 
   const baseNode: Node = {
-    data: new NodeFileData(mocFile),
+    data: new NodeFileData(mocFile, settings.noteWidth, settings.noteHeight),
     // subnodes are undefined
   }
 
@@ -82,7 +87,7 @@ const readMOC = (mocFile: TFile): Node | undefined => {
       if (!linkFile) {
         return acc
       }
-      acc.push({data: new NodeFileData(linkFile)})
+      acc.push({data: new NodeFileData(linkFile, settings.noteWidth, settings.noteHeight)})
       return acc
     }, Array<Node>())
   } else {
@@ -95,7 +100,7 @@ const readMOC = (mocFile: TFile): Node | undefined => {
       if (!linkFile) {
         return acc
       }
-      acc.push({data: new NodeFileData(linkFile)})
+      acc.push({data: new NodeFileData(linkFile, settings.noteWidth, settings.noteHeight)})
       return acc
     }, Array<Node>())
 
@@ -112,7 +117,7 @@ const readMOC = (mocFile: TFile): Node | undefined => {
     );
 
     const headingNode: Node = {
-      data: new NodeTextData(heading.heading),
+      data: new NodeTextData(heading.heading, settings.headingWidth, settings.headingHeight),
       subnodes: filteredLinks?.reduce((acc, link) => {
         const path = getPathFromLink(link.link, mocFile)
         if (!path) { // This may happen if there is a link to a file that has not been created yet
@@ -124,7 +129,7 @@ const readMOC = (mocFile: TFile): Node | undefined => {
         }
 
         acc.push({
-          data: new NodeFileData(file),
+          data: new NodeFileData(file, settings.noteWidth, settings.noteHeight)
         })
 
         return acc

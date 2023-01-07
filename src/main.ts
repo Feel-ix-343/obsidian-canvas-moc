@@ -2,7 +2,7 @@ import { Notice, Plugin, TFile } from 'obsidian';
 import {CanvasData} from 'obsidian/canvas'
 import graph from './Graphing';
 import { Node, readMOC } from './ReadMOC';
-import SettingTab, { PluginSettings } from './SettingTab';
+import SettingTab  from './SettingTab';
 
 export interface PluginSettings {
   spacing: number,
@@ -81,7 +81,7 @@ export default class ObsidianCanvasMOC extends Plugin {
       return
     }
 
-    const nodes: Node | undefined = readMOC(mocFile) 
+    const nodes: Node | undefined = readMOC(mocFile, this.settings) 
     if (!nodes) {
       new Notice("Could not read MOC file")
       return
@@ -90,14 +90,16 @@ export default class ObsidianCanvasMOC extends Plugin {
     // Open the canvas file into a new pane
     await this.app.workspace.getLeaf(true).openFile(canvasFile)
 
-    const spacing = 10; // Padding below the node display
+    const spacing = this.settings.spacing; // Padding below the node display
 
     // Graph all of the headings
     const headingGraphResponse = await graph(canvasFile, nodes, {
       center: {x: 0, y: 0},
       spacing,
       angleSpan: 2 * Math.PI,
-      startingAngle: 0
+      startingAngle: 0,
+      minRadius: this.settings.minRadius,
+      noteWidth: this.settings.noteWidth,
     })
 
     if (!headingGraphResponse) {
@@ -112,15 +114,17 @@ export default class ObsidianCanvasMOC extends Plugin {
       if (coordinate.node.subnodes?.length == 1) {
         angleSpan = 0
       } else if (coordinate.node.subnodes?.length == 2) {
-        angleSpan = 60
+        angleSpan = this.settings.angleSpanSmall
       } else {
-        angleSpan = 120
+        angleSpan = this.settings.angleSpan
       }
       await graph(canvasFile, coordinate.node, {
         center: {x: coordinate.coordinate.x, y: coordinate.coordinate.y},
         spacing,
         startingAngle: (2 * Math.PI + coordinate.coordinate.angle - (angleSpan * (Math.PI / 180)) / 2) % (2 * Math.PI), // A perpendicular degree angle from the base node's angle
-        angleSpan: angleSpan * (Math.PI / 180)
+        angleSpan: angleSpan * (Math.PI / 180),
+        minRadius: this.settings.minRadius,
+        noteWidth: this.settings.noteWidth,
       })
     }
   }
