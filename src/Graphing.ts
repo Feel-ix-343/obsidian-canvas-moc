@@ -1,41 +1,36 @@
 import { randomUUID } from 'crypto'
 import { TFile } from 'obsidian'
 import {CanvasData, CanvasFileData, CanvasLinkData, CanvasTextData, NodeSide} from 'obsidian/canvas'
-import { argv0 } from 'process'
-import { Node, NodeFileData, NodeTextData } from './ReadMOC'
+import { Node }  from './ReadMOC'
 
 interface NodeCoordinate {
   node: Node,
   coordinate: Coordinate
 }
 
-// TODO: Add type
-const graph = async (
+
+/**
+  Graphs the nodes of nodeParent to the canvasFile and returns the coordinates of the nodes so the next level of nodes can be graphed
+*/
+export default async function graph (
   canvasFile: TFile,
   nodeParent: Node,
   options: {center: {x: number, y: number}, spacing: number, angleSpan: number, startingAngle: number}
-): Promise<NodeCoordinate[] | undefined> => {
-  console.log("Node parent: ", nodeParent)
+): Promise<NodeCoordinate[] | undefined> {
   const {data: node, subnodes} = nodeParent
 
-  // TODO: Don't filter out headings that are also links
-  // Dont graph headings that do not have links in them
+  // Filter out headings (with sublinks) that do not have links in them
   if (!subnodes) {
     return
   }
 
   // Filtering out text-subnodes that do not have subnodes
-  console.log(subnodes)
   let subnodesFiltered = subnodes.filter(subnode => subnode.data.type !== "text" || subnode.subnodes !== undefined)
 
   const {spacing, angleSpan, startingAngle, center} = options
 
-  // TODO: make this better
   let subNodeCoordinates = calculateCoordinates(250, spacing, subnodesFiltered.length, angleSpan, startingAngle, 400)
-  console.log(subNodeCoordinates)
 
-  // TODO: Fix this shit
-  const nodeCoordinates: NodeCoordinate[] = []
 
   await app.vault.process(canvasFile, (data: string) => {
     let canvasData: CanvasData = JSON.parse(data)
@@ -50,8 +45,6 @@ const graph = async (
 
 
     for (let i = 0; i < subnodesFiltered.length; i++) {
-      // TODO: make this one call
-      nodeCoordinates.push({node: subnodesFiltered[i], coordinate: subNodeCoordinates[i]})
 
       canvasData.nodes.push({
         ...subnodesFiltered[i].data,
@@ -89,19 +82,22 @@ const graph = async (
     return JSON.stringify(canvasData)
   })
 
+  // Return information about the coordinates so that the next level of nodes can be graphed
+
+  // zip subnodes and coordinates
+  const nodeCoordinates: NodeCoordinate[] = subnodesFiltered.map((subnode, index) => {
+    return {node: subnode, coordinate: subNodeCoordinates[index]}
+  })
 
   return nodeCoordinates
 }
 
 export type { NodeCoordinate }
 
-export default graph
-
 interface Coordinate {
   x: number, y: number, angle: number
 }
 
-// TODO: Fix calculations when there is only one subnode
 const calculateCoordinates = (nodeWidth: number, nodeSpacing: number, numOfNodes: number, angleSpan: number, startingAngle: number, minRadius: number): Coordinate[] => {
   // There needs to be adequate spacing between the nodes
   // This will directly affect the radius of the circle

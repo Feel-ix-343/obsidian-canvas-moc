@@ -1,11 +1,7 @@
-import { randomUUID } from 'crypto';
-import { Notice, Plugin, TAbstractFile, TFile } from 'obsidian';
-import {CanvasData, CanvasFileData, CanvasTextData, NodeSide} from 'obsidian/canvas'
-import { argv0 } from 'process';
-import graph, {NodeCoordinate} from './Graphing';
+import { Notice, Plugin, TFile } from 'obsidian';
+import {CanvasData} from 'obsidian/canvas'
+import graph from './Graphing';
 import { Node, readMOC } from './ReadMOC';
-
-// TODO: Also get link data
 
 
 export default class MyPlugin extends Plugin {
@@ -26,7 +22,8 @@ export default class MyPlugin extends Plugin {
 
 
   public createCanvas = async (mocFile: TFile) => {
-    // Create and open the canvas file
+
+    // Create the canvas file
     let defaultCanvasJSON: CanvasData = {
       edges: [],
       nodes: []
@@ -49,7 +46,6 @@ export default class MyPlugin extends Plugin {
       new Notice("Could not read MOC file")
       return
     }
-    console.log(readMOC(mocFile))
 
     // Open the canvas file into a new pane
     await this.app.workspace.getLeaf(true).openFile(canvasFile)
@@ -65,11 +61,12 @@ export default class MyPlugin extends Plugin {
     })
 
     if (!headingGraphResponse) {
-      new Notice("Could not graph headings")
+      new Notice("Could not graph")
       return
     }
-    console.log(headingGraphResponse)
 
+    // Graph all of the links in the headings. There are at most 2 levels of links. 
+    // TODO: Make a recursive function to graph all of the subheadings. This works for now
     for (const coordinate of headingGraphResponse) {
       let angleSpan
       if (coordinate.node.subnodes?.length == 1) {
