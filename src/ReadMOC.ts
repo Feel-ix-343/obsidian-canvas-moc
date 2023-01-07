@@ -146,6 +146,8 @@ const readMOC = (mocFile: TFile, settings: PluginSettings): Node | undefined => 
     }
   }
 
+  console.log(baseNode)
+
   return baseNode
 }
 

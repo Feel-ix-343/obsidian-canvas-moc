@@ -7,7 +7,8 @@ import SettingTab  from './SettingTab';
 
 export interface PluginSettings {
   spacing: number,
-  minRadius: number,
+  levelOneMinRadius: number,
+  levelTwoMinRadius: number,
   headingWidth: number,
   headingHeight: number,
   noteWidth: number,
@@ -18,9 +19,10 @@ export interface PluginSettings {
 
 const DEFAULT_SETTINGS: PluginSettings = {
   spacing: 10,
-  minRadius: 400,
+  levelOneMinRadius: 450,
+  levelTwoMinRadius: 300,
   headingWidth: 250,
-  headingHeight: 250,
+  headingHeight: 100,
   noteWidth: 250,
   noteHeight: 250,
   angleSpan: 120,
@@ -107,7 +109,7 @@ export default class ObsidianCanvasMOC extends Plugin {
       spacing,
       angleSpan: 2 * Math.PI,
       startingAngle: 0,
-      minRadius: this.settings.minRadius,
+      minRadius: this.settings.levelOneMinRadius,
       noteWidth: this.settings.noteWidth,
     })
 
@@ -132,7 +134,7 @@ export default class ObsidianCanvasMOC extends Plugin {
         spacing,
         startingAngle: (2 * Math.PI + coordinate.coordinate.angle - (angleSpan * (Math.PI / 180)) / 2) % (2 * Math.PI), // A perpendicular degree angle from the base node's angle
         angleSpan: angleSpan * (Math.PI / 180),
-        minRadius: this.settings.minRadius,
+        minRadius: this.settings.levelTwoMinRadius,
         noteWidth: this.settings.noteWidth,
       })
     }

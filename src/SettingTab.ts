@@ -30,14 +30,27 @@ export default class SettingTab extends PluginSettingTab {
 
     this.generateSettings({
       containerEl,
-      name: "Minimum Radius",
-      description: "The minimum radius of the graph; This will take effet when there are not enough nodes for the radius to be affected by spacing",
-      value: this.plugin.settings.minRadius,
+      name: "Level One Minimum Radius",
+      description: "The minimum radius of first level of the graph the graph; This will take effet when there are not enough nodes for the radius to be affected by spacing",
+      value: this.plugin.settings.levelOneMinRadius,
       onChange: (value) => {
-        this.plugin.settings.minRadius = value
+        this.plugin.settings.levelOneMinRadius = value
       },
-      defaultValue: DEFAULT_SETTINGS.minRadius,
+      defaultValue: DEFAULT_SETTINGS.levelOneMinRadius,
       placeholder: "Minimum radius in px"
+    })
+
+    this.generateSettings({
+      containerEl,
+      name: "Level Two Minimum Radius",
+      description: "The minimum radius of second level of the graph the graph; This will take effet when there are not enough nodes for the radius to be affected by spacing",
+      value: this.plugin.settings.levelTwoMinRadius,
+      onChange: (value) => {
+        this.plugin.settings.levelTwoMinRadius = value
+      },
+      defaultValue: DEFAULT_SETTINGS.levelTwoMinRadius,
+      placeholder: "Minimum radius in px",
+
     })
 
     this.generateSettings({
