@@ -2,6 +2,7 @@ import { Notice, Plugin, TFile } from 'obsidian';
 import {CanvasData} from 'obsidian/canvas'
 import graph from './Graphing';
 import { Node, readMOC } from './ReadMOC';
+import { RegenerateModal } from './RegenerateModal';
 import SettingTab  from './SettingTab';
 
 export interface PluginSettings {
@@ -77,7 +78,15 @@ export default class ObsidianCanvasMOC extends Plugin {
       canvasFile = await this.app.vault.create(name, JSON.stringify(defaultCanvasJSON))
     } catch (e) {
       console.log(e)
-      new Notice(`Canvas file (${name}) already exists`)
+      new RegenerateModal(this.app, name, () => {
+        let canvasFile = this.app.vault.getAbstractFileByPath(name)
+        if (!canvasFile) {
+          new Notice("We just have an error lol idek. I thought the canvas file was not created, but then it was, but now I can't find it")
+          return
+        }
+        this.app.vault.delete(canvasFile)
+        this.createCanvas(mocFile)
+      }).open()
       return
     }
 
