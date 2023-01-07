@@ -12,6 +12,7 @@ export interface PluginSettings {
   noteWidth: number,
   noteHeight: number,
   angleSpan: number,
+  angleSpanSmall: number
 }
 
 const DEFAULT_SETTINGS: PluginSettings = {
@@ -21,7 +22,8 @@ const DEFAULT_SETTINGS: PluginSettings = {
   headingHeight: 250,
   noteWidth: 250,
   noteHeight: 250,
-  angleSpan: 110
+  angleSpan: 120,
+  angleSpanSmall: 60
 } 
 
 export {DEFAULT_SETTINGS}

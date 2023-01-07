@@ -100,6 +100,18 @@ export default class SettingTab extends PluginSettingTab {
       defaultValue: DEFAULT_SETTINGS.angleSpan,
       placeholder: "Angle span in degrees"
     })
+
+    this.generateSettings({
+      containerEl,
+      name: "Angle Span Small",
+      description: "The angle span of the graph when there are only 2 nodes",
+      value: this.plugin.settings.angleSpanSmall,
+      onChange: (value) => {
+        this.plugin.settings.angleSpanSmall = value
+      },
+      defaultValue: DEFAULT_SETTINGS.angleSpanSmall,
+      placeholder: "Angle span in degrees"
+    })
   }
   generateSettings( { containerEl, name, description, placeholder, value, onChange, defaultValue }: { containerEl: HTMLElement; name: string; description: string; placeholder: string; value: string; onChange: (value: number) => void; defaultValue: number; }) {
     new Setting(containerEl)
