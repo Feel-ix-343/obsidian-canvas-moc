@@ -9,7 +9,7 @@ Obsidian plugin that will generate a canvas from a given MOC note
   2. JSON.parse the file into the canvas interface specified in the obsidian api
   3. Edit this interface
   4. Update the file and SEE THE CHANGES
-- [x] Implement the plugin
+- [x] Implement the plugin (SWITCH TO THE HEADERSTRANSLATION branch)
   - Currently works. Creates a circle of the outlinks around the MOC note node
   - I used cool trig for this
 - [ ] Update Design and add some settings (spacing etc...)
