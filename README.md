@@ -79,7 +79,7 @@ Although the main intent of this plugin is to translate preexisting MOC notes, I
 # Status/Process
 
 
-- [x] Figure out how to use edit obsidian canvases. Explanation below
+- [x] Figure out how to edit obsidian canvases. Explanation below
   1. Read the file
   2. JSON.parse the file into the canvas interface specified in the obsidian api
   3. Edit this interface
