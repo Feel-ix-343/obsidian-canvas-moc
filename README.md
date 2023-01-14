@@ -41,7 +41,7 @@ Run `Create Canvas` to create your canvases.
 
 </details>
 
-<details><summary>If the MOC file separates links by headers, these **headers will show up as the 1st level in the graph view**. The links cooresponding to these headers will be displayed as the 2nd level--evenly spaced around their respective headers.</summary>
+<details><summary>If the MOC file separates links by headers, these **headers will show up as the 1st level in the graph view**. The links corresponding to these headers will be displayed as the 2nd level--evenly spaced around their respective headers.</summary>
 
 ![Peek 2023-01-13 21-12](https://user-images.githubusercontent.com/88951499/212446131-8f79723a-17e4-4543-9381-47c40ecae306.gif)
 
