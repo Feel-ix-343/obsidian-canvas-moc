@@ -9,7 +9,25 @@ With the release of the canvas feature in Obsidian (v1.1), many people have star
 
 # Installation
 
-TODO
+1. Open a CLI
+2. Navigate (through cd) to your obsidian vault's base directory
+3. Run `cd .obsidian/plugins/` to open the plugins directory
+4. Run `git clone https://github.com/Feel-ix-343/obsidian-canvas-moc.git` to clone the repo
+5. Run `cd obsidan-canvas-moc` to enter the plugin directory
+6. Run `npm install && npm run build` to install dependencies and build the plugin
+7. Enable the plugin in the *Community Plugins* Tab
+8. Look at the *features* or *usage* headings to use the plugin!
+
+<details><summary>Here are all of the commands for once you are in cd-ed into your vault</summary>
+	
+```
+cd .obsidian/plugins
+git clone https://github.com/Feel-ix-343/obsidian-canvas-moc.git
+cd obsidian-canvas-moc
+npm install && npm run build
+```
+	
+</details>
 
 # Features
 
