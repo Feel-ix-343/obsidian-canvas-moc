@@ -1,6 +1,6 @@
 # Abstract: Obsidian Canvas MOC
 
-With the release of the canvas feature in Obsidian (v1.1), many people have started to wonder about its applicability to well-established note taking practices like MOC (Map of Content) notes. I believe that the expressive canvas interface will replace simple MOC notes and allow for showing better context between notes and connections. If the transition to canvas from MOC is made, the obsidian community would greatly benefit from automation in their process. 
+With the release of the canvas feature in Obsidian (v1.1), many people have started to wonder about its applicability to well-established note taking practices like MOC (Map of Content) notes. I believe that the expressive canvas interface will replace simple MOC notes and allow for showing better context between notes and connections. If the transition to canvas from MOC is made, the obsidian community would greatly benefit from automation in this process. 
 
 **Obsidian Canvas MOC provides an easy way for Map Of Content notes to be translated into the new canvas view**
 
