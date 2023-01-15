@@ -118,6 +118,7 @@ Although the main intent of this plugin is to translate preexisting MOC notes, I
   - How well does it work for most peoples MOC's ?
   - How is the performance of my code?
   - How does the layout of the canvas from the MOC align with the *theory* of MOCs; How does it help to make Evergreen notes and other practices of Zettlekasten
+  - [ ] Set up BRAT for easier user testing
 
 
 # Credits
