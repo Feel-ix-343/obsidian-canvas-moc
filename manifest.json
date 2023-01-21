@@ -1,7 +1,7 @@
 {
 	"id": "Obsidian-Canvas-MOC",
 	"name": "Obsidian Canvas MOC",
-	"version": "1.0.0",
+	"version": "0.0.1",
 	"minAppVersion": "0.15.0",
 	"description": "Tools for converting MOC notes to Obsidian Canvases",
 	"author": "Feel-ix",
