@@ -8,7 +8,13 @@ With the release of the canvas feature in Obsidian (v1.1), many people have star
 ![Peek 2023-01-13 21-04](https://user-images.githubusercontent.com/88951499/212445796-ec579dee-2ae8-4828-bf60-0914d9843b66.gif)
 
 # Installation
+## BRAT Installation
+Now that I have uploaded the frist release of the plugin, you are able to install and test it through the BRAT obsidian plugin. 
 
+Here is the link: https://github.com/TfTHacker/obsidian42-brat#Quick-Guide-for-using-BRAT
+
+
+## Mannual Installation
 1. Open a CLI
 2. Navigate (through cd) to your obsidian vault's base directory
 3. Run `cd .obsidian/plugins/` to open the plugins directory
