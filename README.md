@@ -119,12 +119,16 @@ Although the main intent of this plugin is to translate preexisting MOC notes, I
   - Minimum radius (for when there are few nodes)
   - Heights and widths
   - Angle span (for when the nodes are branching from headings)
-- [ ] Add a live settings preview for tweaking the graph and getting instant feedback. Right now the work flow could be: Make graph, change settings, regenerate graph (overwriting the file)
-- [ ] Update the plugin and spacing techiniques
-  - How well does it work for most peoples MOC's ?
-  - How is the performance of my code?
-  - How does the layout of the canvas from the MOC align with the *theory* of MOCs; How does it help to make Evergreen notes and other practices of Zettlekasten
-  - [ ] Set up BRAT for easier user testing
+- [x] Set up BRAT for easier user testing
+- [ ] Generate as new canvas
+- [ ] Auto fit card to content (within a certain size)
+- [ ] Jump to canvas group functionality from MOC. This is cool because it involves the canvas and the MOC being used. It is true, sometimes it is a pain to find a specific canvas section. Potential for future direction: integrate MOC to canvas to get the best of both worlds
+- [ ] Indentation and multiple headers. This will involve making a new algo
+- [ ] Add a setting to show all headers
+- [ ] Integration with dataview in MOCs
+- [ ] Idea from the drag and drop. Intercept this drag and drop and structure thorugh my plugin
+ 
+
 
 
 # Credits
