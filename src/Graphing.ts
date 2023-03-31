@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto'
 import { TFile } from 'obsidian'
-import {CanvasData, CanvasFileData, CanvasLinkData, CanvasTextData, NodeSide} from 'obsidian/canvas'
+import {CanvasData, NodeSide} from 'obsidian/canvas'
 import { Node }  from './ReadMOC'
 
 interface NodeCoordinate {
@@ -32,15 +32,15 @@ export default async function graph (
   }
 
   // Filtering out text-subnodes that do not have subnodes
-  let subnodesFiltered = subnodes.filter(subnode => subnode.data.type !== "text" || subnode.subnodes !== undefined)
+  const subnodesFiltered = subnodes.filter(subnode => subnode.data.type !== "text" || subnode.subnodes !== undefined)
 
   const {spacing, angleSpan, startingAngle, center, minRadius, noteWidth} = options
 
-  let subNodeCoordinates = calculateCoordinates(noteWidth, spacing, subnodesFiltered.length, angleSpan, startingAngle, minRadius)
+  const subNodeCoordinates = calculateCoordinates(noteWidth, spacing, subnodesFiltered.length, angleSpan, startingAngle, minRadius)
 
 
   await app.vault.process(canvasFile, (data: string) => {
-    let canvasData: CanvasData = JSON.parse(data)
+    const canvasData: CanvasData = JSON.parse(data)
 
     // Load the central node
     canvasData.nodes.push({
@@ -119,13 +119,13 @@ const calculateCoordinates = (nodeWidth: number, nodeSpacing: number, numOfNodes
   } else {
     angleDiff = angleSpan == 2 * Math.PI ? angleSpan / (numOfNodes) : angleSpan / (numOfNodes - 1) // Calculating the angle between each node and taking into account the first angle being 0
     r =  (Math.sqrt(2) * (nodeSpacing + nodeWidth))/(2 * Math.sqrt(1 - Math.cos(angleDiff)))
-    r < minRadius ? r = minRadius : r = r
+    r < minRadius ? r = minRadius : null
   }
 
-  let coordinates: {x: number, y: number, angle: number}[] = []
+  const coordinates: {x: number, y: number, angle: number}[] = []
 
   for (let i = 0; i < numOfNodes; i++) {
-    let angle = (angleDiff * i + startingAngle) % (2 * Math.PI)
+    const angle = (angleDiff * i + startingAngle) % (2 * Math.PI)
     const x = r * Math.cos(angle)
     const y = r * Math.sin(angle)
     coordinates.push({x, y, angle})
